@@ -15,17 +15,16 @@ services:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
 
   postgres:
-    image: postgres
+    image: ghcr.io/ferretdb/postgres-documentdb:latest
+    platform: linux/amd64
     environment:
       - POSTGRES_USER=username
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=ferretdb
-    volumes:
-      - ./data:/var/lib/postgresql/data
+      - POSTGRES_DB=postgres
 
   ferretdb:
-    image: ghcr.io/ferretdb/ferretdb
+    image: ghcr.io/ferretdb/ferretdb:2
     ports:
       - 27017:27017
     environment:
-      - FERRETDB_POSTGRESQL_URL=postgres://postgres:5432/ferretdb
+      - FERRETDB_POSTGRESQL_URL=postgres://username:password@postgres:5432/postgres
